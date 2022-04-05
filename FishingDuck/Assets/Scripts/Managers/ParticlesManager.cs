@@ -36,6 +36,11 @@ public class ParticlesManager : MonoBehaviour
     }
 
 
+    private void Start()
+    {
+        ParticlesManager.Instance.SpawnParticles("ParticleFeu", this.transform, Vector3.zero, false);
+    }
+
     public void SpawnParticles(string name, Transform parentTransform, Vector3 rotation, bool setToParent)
     {
         if (!canParticle)

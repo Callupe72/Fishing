@@ -27,7 +27,7 @@ public class FishingRoad : MonoBehaviour
     public void StartFishing()
     {
         isFishing = true;
-        fishingRoadParent.DORotate(new Vector3(0, 0, 0), timeFishAnim);
+        fishingRoadParent.DOLocalRotate(new Vector3(180, 0, 0), timeFishAnim);
     }
 
 
@@ -35,7 +35,7 @@ public class FishingRoad : MonoBehaviour
     {
         transform.position = firstPos;
         isFishing = false;
-        fishingRoadParent.DORotate(new Vector3(90, 0, 0), timeFishAnim);
+        fishingRoadParent.DOLocalRotate(new Vector3(-90, 0, 0), timeFishAnim);
 
 
         if (duckColliding != null)

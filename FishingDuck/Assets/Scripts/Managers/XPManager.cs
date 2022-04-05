@@ -9,8 +9,8 @@ public class XPManager : MonoBehaviour
     [SerializeField] Image xpBarBack;
     [SerializeField] Image xpBar;
     [SerializeField] TextMeshProUGUI levelTxt;
-   // [SerializeField] GameObject xpText;
-   // [SerializeField] Transform xpTextParent;
+    [SerializeField] GameObject xpText;
+    [SerializeField] Transform xpTextParent;
     [SerializeField] float timeLevelTransition = .5f;
     [SerializeField] RectTransform xpBackground;
 
@@ -93,9 +93,9 @@ public class XPManager : MonoBehaviour
 
         if (canXpText && xp > 0)
         {
-            //TextMeshProUGUI text = Instantiate(xpText, xpTextParent).GetComponent<TextMeshProUGUI>();
-            //text.rectTransform.anchoredPosition = new Vector2(xpBarBack.fillAmount * xpBar.rectTransform.sizeDelta.x - 100 - xpBar.rectTransform.sizeDelta.x / 3, -40);
-            //text.text = "+" + xp + " xp";
+            TextMeshProUGUI text = Instantiate(xpText, xpTextParent).GetComponent<TextMeshProUGUI>();
+            text.rectTransform.anchoredPosition = new Vector2(xpBarBack.fillAmount * xpBar.rectTransform.sizeDelta.x + 0 - xpBar.rectTransform.sizeDelta.x / 3, -40);
+            text.text = "+" + xp + " xp";
         }
         if (canXpBar && xp > 0)
         {
