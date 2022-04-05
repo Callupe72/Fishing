@@ -111,8 +111,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   posToGo: {fileID: 0}
-  timeToGo: 3
+  timeToGo: 6
   hasBeenCaught: 0
+  meshRend: {fileID: 1712423136598057393}
 --- !u!54 &420435209992298416
 Rigidbody:
   m_ObjectHideFlags: 0

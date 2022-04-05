@@ -5,11 +5,24 @@ using UnityEngine;
 public class FishingCollision : MonoBehaviour
 {
     [SerializeField] FishingRoad fishingRoad;
-    
+    [SerializeField] MeshRenderer mesh;
 
     void Reset()
     {
         fishingRoad = FindObjectOfType<FishingRoad>();
+        mesh = GetComponent<MeshRenderer>();
+    }
+
+    void Update()
+    {
+        if(fishingRoad.duckColliding == null)
+        {
+            mesh.sharedMaterials[0].SetColor("_BaseColor", Color.white);
+        }
+        else
+        {
+            mesh.sharedMaterials[0].SetColor("_BaseColor", Color.green);
+        }
     }
 
     void OnTriggerEnter(Collider collision)

@@ -36,7 +36,10 @@ public class AudioManager : MonoBehaviour
     void LoadAudioValue()
     {
         if (PlayerPrefs.GetFloat("audioVolume") > 0)
-            audioVolumeSlider.value = PlayerPrefs.GetFloat("audioVolume");
+        {
+
+            //audioVolumeSlider.value = PlayerPrefs.GetFloat("audioVolume");
+        }
         else
             audioVolumeSlider.value = 50f;
 

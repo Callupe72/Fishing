@@ -1,4 +1,6 @@
 using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
 using UnityEngine;
 
 public class FishingRoad : MonoBehaviour
@@ -7,13 +9,15 @@ public class FishingRoad : MonoBehaviour
     [SerializeField] float timeFishAnim = .5f;
     [SerializeField] Transform fishingRoadParent;
     [SerializeField] DuckSpawn duckSpawn;
-    [SerializeField] FishingCollision fishingColl;
+    [SerializeField] Transform fishingCrochet;
 
+    [SerializeField] GameObject detectionArea;
     Vector3 firstPos;
 
-    Duck duckColliding;
+    public Duck duckColliding;
     [SerializeField] float sensivity = 1000;
     [SerializeField] float maxClamp = 10;
+    TweenerCore<Quaternion, Vector3, QuaternionOptions> rotate;
 
     void Start()
     {
@@ -27,21 +31,33 @@ public class FishingRoad : MonoBehaviour
     public void StartFishing()
     {
         isFishing = true;
-        fishingRoadParent.DOLocalRotate(new Vector3(180, 0, 0), timeFishAnim);
+        fishingRoadParent.DORotateQuaternion(Quaternion.Euler(new Vector3(180, 0, 0)), timeFishAnim).OnComplete(SpawnTarget);
+        
     }
 
 
     public void EndFishing()
     {
+        UnSpawnTarget();
+        rotate.Kill();
         transform.position = firstPos;
         isFishing = false;
-        fishingRoadParent.DOLocalRotate(new Vector3(-90, 0, 0), timeFishAnim);
-
+        fishingRoadParent.DORotateQuaternion(Quaternion.Euler(new Vector3(-90, 0, 0)), timeFishAnim);
 
         if (duckColliding != null)
         {
             GetDuck();
         }
+    }
+
+    void SpawnTarget()
+    {
+        detectionArea.SetActive(true);
+    }
+
+    void UnSpawnTarget()
+    {
+        detectionArea.SetActive(false);
     }
 
     void GetDuck()
@@ -69,5 +85,13 @@ public class FishingRoad : MonoBehaviour
         float posZ = transform.position.z - (-newPos.y) / sensivity;
         posZ = Mathf.Clamp(posZ,firstPos.z - maxClamp, firstPos.z + maxClamp);
         transform.position = new Vector3(firstPos.x, firstPos.y, posZ);
+    }
+
+    private void Update()
+    {
+        if (detectionArea.activeInHierarchy)
+        {
+            detectionArea.transform.position = new Vector3(fishingCrochet.transform.position.x, detectionArea.transform.position.y, fishingCrochet.transform.position.z);
+        }
     }
 }

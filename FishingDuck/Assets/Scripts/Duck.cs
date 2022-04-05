@@ -8,6 +8,7 @@ public class Duck : MonoBehaviour
     [SerializeField] Transform posToGo;
     [SerializeField] float timeToGo = 2f;
     [SerializeField] bool hasBeenCaught;
+    [SerializeField] MeshRenderer meshRend;
     float randomZ;
     void Start()
     {
@@ -41,7 +42,22 @@ public class Duck : MonoBehaviour
         hasBeenCaught = caught;
         if (caught)
         {
+            XPManager.Instance.AddXP(200);
         }
+    }
+
+    public void ChangeColor(Color newCol)
+    {
+        timeToGo = Random.RandomRange(1, 2);
+        Material newMat = meshRend.materials[0];
+        newMat.SetColor("_BaseColor", newCol);
+        meshRend.sharedMaterials[0] = newMat;
+        Debug.Log(newCol);
+    }
+
+    public void RandomColor()
+    {
+        ChangeColor(Random.ColorHSV());
     }
 
 }
