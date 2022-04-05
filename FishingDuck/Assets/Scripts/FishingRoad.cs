@@ -1,7 +1,9 @@
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI ;
 
 public class FishingRoad : MonoBehaviour
 {
@@ -17,7 +19,10 @@ public class FishingRoad : MonoBehaviour
     public Duck duckColliding;
     [SerializeField] float sensivity = 1000;
     [SerializeField] float maxClamp = 10;
-    TweenerCore<Quaternion, Vector3, QuaternionOptions> rotate;
+    TweenerCore<Quaternion, Quaternion, NoOptions> rotate;
+
+    [SerializeField] Image duckImg;
+    [SerializeField] GameObject duckAnim;
 
     void Start()
     {
@@ -42,7 +47,7 @@ public class FishingRoad : MonoBehaviour
         rotate.Kill();
         transform.position = firstPos;
         isFishing = false;
-        fishingRoadParent.DORotateQuaternion(Quaternion.Euler(new Vector3(-90, 0, 0)), timeFishAnim);
+        fishingRoadParent.DORotateQuaternion(Quaternion.Euler(new Vector3(-90, 0, 0)), timeFishAnim).OnComplete(UnSpawnTarget);
 
         if (duckColliding != null)
         {
@@ -52,7 +57,7 @@ public class FishingRoad : MonoBehaviour
 
     void SpawnTarget()
     {
-        detectionArea.SetActive(true);
+            detectionArea.SetActive(true);
     }
 
     void UnSpawnTarget()
@@ -64,7 +69,16 @@ public class FishingRoad : MonoBehaviour
     {
         duckColliding.SetHasBeenCaught(true);
         duckSpawn.SpawnNewDuck(duckColliding);
+        duckImg.color = duckColliding.scriptableDucks.color;
+        duckAnim.SetActive(true);
+        StartCoroutine(ActiveFalseDuck());
         duckColliding = null;
+    }
+
+    IEnumerator ActiveFalseDuck()
+    {
+        yield return new WaitForSeconds(1f);
+        duckAnim.SetActive(false);
     }
 
     public void StartCollideDuck(Duck duckCollide)

@@ -53,11 +53,6 @@ public class XPManager : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            AddXP(200);
-        }
-
         xpBackground.DOScale(1f, timeLevelTransition);
         if (canFollow)
         {
@@ -87,7 +82,7 @@ public class XPManager : MonoBehaviour
         }
     }
 
-    public void AddXP(int xp)
+    public void AddXP(int xp, Color color)
     {
         playerXp += xp;
 
@@ -96,6 +91,7 @@ public class XPManager : MonoBehaviour
             TextMeshProUGUI text = Instantiate(xpText, xpTextParent).GetComponent<TextMeshProUGUI>();
             text.rectTransform.anchoredPosition = new Vector2(xpBarBack.fillAmount * xpBar.rectTransform.sizeDelta.x + 0 - xpBar.rectTransform.sizeDelta.x / 3, -40);
             text.text = "+" + xp + " xp";
+            text.color = color;
         }
         if (canXpBar && xp > 0)
         {

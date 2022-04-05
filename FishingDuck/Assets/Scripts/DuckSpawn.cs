@@ -13,8 +13,7 @@ public class DuckSpawn : MonoBehaviour
 
     public void SpawnNewDuck(Duck collidingDuck)
     {
-        Duck duckSpawned = Instantiate(duckPrefab, duckSpawn.position, Quaternion.Euler(new Vector3(-90,0,0))).GetComponent<Duck>();
-        duckSpawned.SetPosToGo(transform);
+        SpawnerManager.Instance.SpawnNewDuck(collidingDuck.scriptableDucks);
         if (collidingDuck != null)
             Destroy(collidingDuck.gameObject);
     }
