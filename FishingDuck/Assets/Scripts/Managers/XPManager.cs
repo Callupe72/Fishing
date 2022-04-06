@@ -21,6 +21,8 @@ public class XPManager : MonoBehaviour
     [SerializeField] bool canXpBar = true;
     [SerializeField] bool canXpText = true;
 
+    [SerializeField] TextMeshProUGUI textScore;
+
     int level = -1;
 
     bool canFollow;
@@ -47,6 +49,7 @@ public class XPManager : MonoBehaviour
     }
     void Start()
     {
+        textScore.text = playerXp.ToString() + "  /  " + xpBeforeNextLvl.ToString();
         LevelUp();
     }
 
@@ -93,6 +96,8 @@ public class XPManager : MonoBehaviour
             text.text = "+" + xp + " xp";
             text.color = color;
         }
+        xpBar.color = color;
+
         if (canXpBar && xp > 0)
         {
             xpBackground.DOScale(1.1f, 0.001f);
@@ -103,6 +108,13 @@ public class XPManager : MonoBehaviour
             xpBar.fillAmount = playerXp / xpBeforeNextLvl;
             xpBarBack.fillAmount = playerXp / xpBeforeNextLvl;
         }
+
+        float textInt = playerXp;
+
+        if (textInt >= xpBeforeNextLvl)
+            textInt -= xpBeforeNextLvl;
+        
+        textScore.text = textInt.ToString()  + "  /  " +  xpBeforeNextLvl.ToString();
     }
 
     IEnumerator WaitBeforeFollow(int xp)
@@ -130,7 +142,9 @@ public class XPManager : MonoBehaviour
             levelTxt.transform.DOScale(3, 0.001f);
             canLevelGrowUp = true;
             StartCoroutine(WaitBeforeFollow(Mathf.RoundToInt(playerXp)));
+            GameManager.Instance.LevelTransition();
         }
+
     }
 
     public bool GetXpBar()

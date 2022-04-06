@@ -71,6 +71,7 @@ public class FishingRoad : MonoBehaviour
         duckSpawn.SpawnNewDuck(duckColliding);
         duckImg.color = duckColliding.scriptableDucks.color;
         duckAnim.SetActive(true);
+        ComboManager.Instance.SpawnText(duckColliding.scriptableDucks.color, duckColliding.transform.position + new Vector3(0, 1, 0)); ;
         StartCoroutine(ActiveFalseDuck());
         duckColliding = null;
     }

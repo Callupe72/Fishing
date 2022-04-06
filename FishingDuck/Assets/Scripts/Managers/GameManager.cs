@@ -30,7 +30,10 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
 
-        LevelTransition();
+        level = PlayerPrefs.GetInt("Level");
+        if (level == 0)
+            level = 1;
+
     }
     public void Pause()
     {
@@ -42,19 +45,23 @@ public class GameManager : MonoBehaviour
     public void LevelTransition()
     {
         levelTransition.gameObject.SetActive(true);
+        Time.timeScale = 0;
         StartCoroutine(SetActiveFalseTransition());
         StartCoroutine(ChangeLevelText());
     }
 
     IEnumerator SetActiveFalseTransition()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSecondsRealtime(3);
         levelTransition.gameObject.SetActive(false);
+        Time.timeScale = 1;
+
     }
     IEnumerator ChangeLevelText()
     {
-        yield return new WaitForSeconds(1.1f);
+        yield return new WaitForSecondsRealtime(1.1f);
         level++;
+        PlayerPrefs.SetInt("Level", level);
         ActualizeLevelText();
     }
 

@@ -35,14 +35,6 @@ public class AudioManager : MonoBehaviour
 
     void LoadAudioValue()
     {
-        if (PlayerPrefs.GetFloat("audioVolume") > 0)
-        {
-
-            //audioVolumeSlider.value = PlayerPrefs.GetFloat("audioVolume");
-        }
-        else
-            audioVolumeSlider.value = 50f;
-
         ActualiseText();
     }
     public void SaveAudioValue()
@@ -59,7 +51,8 @@ public class AudioManager : MonoBehaviour
 
     public void ActualiseText()
     {
-        audioValueText.text = audioVolume.ToString();
+        if(audioValueText)
+         audioValueText.text = audioVolume.ToString();
     }
 
     public void Play2DSound(string name)

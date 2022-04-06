@@ -21,7 +21,7 @@ public class FishingCollision : MonoBehaviour
         }
         else
         {
-            mesh.sharedMaterials[0].SetColor("_BaseColor", Color.green);
+            mesh.sharedMaterials[0].SetColor("_BaseColor", fishingRoad.duckColliding.scriptableDucks.color);
         }
     }
 
