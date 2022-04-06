@@ -47,8 +47,6 @@ public class ObjectiveManager : MonoBehaviour
         }
 
         animator.Play();
-        Debug.Log("Anim " + animator.isPlaying);
-
         SpawnerManager.Instance.SpawnDuck(listToSend);
     }
 

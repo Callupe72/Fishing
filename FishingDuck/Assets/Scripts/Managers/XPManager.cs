@@ -99,6 +99,9 @@ public class XPManager : MonoBehaviour
             text.color = color;
         }
         xpBar.color = color;
+        color = color * new Vector4(1, 1, 1, .5f);
+        xpBarBack.color = color;
+
 
         if (canXpBar && xp > 0)
         {
@@ -134,7 +137,6 @@ public class XPManager : MonoBehaviour
         level++;
         xpBar.fillAmount = 0;
         xpBarBack.fillAmount = 0;
-        levelTxt.text = (level + 1).ToString();
         //AudioManager.Instance.Play2DSound("PlayerLevelUp");
         if (level > 0)
         {
@@ -147,6 +149,8 @@ public class XPManager : MonoBehaviour
             GameManager.Instance.LevelTransition();
             levelTxt.DOColor(Color.black, timeLevelTransition).SetUpdate(true);
             levelTxt.transform.DOScale(1, timeLevelTransition).SetUpdate(true);
+            AudioManager.Instance.Play2DSound("LevelUp");
+            ParticlesManager.Instance.SpawnParticles("LevelUp", Camera.main.transform.position + new Vector3(0, -.5f, -.5f), Vector3.zero);
         }
 
     }

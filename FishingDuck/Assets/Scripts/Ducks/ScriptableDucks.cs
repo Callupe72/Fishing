@@ -10,6 +10,7 @@ public class ScriptableDucks : ScriptableObject
     [Range(0,100)] public int spawnRate;
     public float timeToCross = 2f;
     public bool isNormal;
+    public Vector3 rotation;
 
     public Mesh duckMesh;
     public Material[] duckMats;

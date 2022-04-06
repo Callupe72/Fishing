@@ -58,8 +58,14 @@ public class FishingRoad : MonoBehaviour
     {
         detectionArea.SetActive(true);
         
-            AudioManager.Instance.Play2DSound("TouchWater");
-        ParticlesManager.Instance.SpawnParticles("FishingTouchWater", detectionArea.transform, Vector3.zero, false);
+        AudioManager.Instance.Play2DSound("TouchWater");
+        StartCoroutine(SpawnParticle());
+    }
+
+    IEnumerator SpawnParticle()
+    {
+        yield return new WaitForSeconds(.01f);
+        ParticlesManager.Instance.SpawnParticles("FishingTouchWater", detectionArea.transform.position, Vector3.zero);
     }
 
     void UnSpawnTarget()
@@ -79,12 +85,14 @@ public class FishingRoad : MonoBehaviour
 
             AudioManager.Instance.Play2DSound("GetDuck");
             AudioManager.Instance.Play2DSound("GetDuck2");
+            PostProcessManager.Instance.SetGreenColor();
             ParticlesManager.Instance.SpawnParticles("GetDuckText", duckColliding.transform.position + new Vector3(-.25f,.5f, 0), Vector3.zero);
         }
         else
         {
             CameraShake.Shake(0.25f, 4f);
             AudioManager.Instance.Play2DSound("GetBadDuck");
+            PostProcessManager.Instance.SetRedColor();
             ParticlesManager.Instance.SpawnParticles("GetBadDuck", duckColliding.transform.position + new Vector3(-.25f, .5f, 0), Vector3.zero);
         }
         duckColliding.SetHasBeenCaught(true);

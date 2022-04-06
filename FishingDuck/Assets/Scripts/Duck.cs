@@ -20,8 +20,10 @@ public class Duck : MonoBehaviour
         randomZ = Random.Range(-.5f, .5f);
         ChangeColor(scriptableDucks.color);
         //transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + randomZ);
+        timeToGo = scriptableDucks.timeToCross * 1.5f;
         transform.DOMove(vectorposToGo, timeToGo);
-        timeToGo = scriptableDucks.timeToCross;
+
+        transform.rotation = Quaternion.Euler(scriptableDucks.rotation + new Vector3(-90,0,0));
     }
 
     public void SetPosToGo(Transform newPos)

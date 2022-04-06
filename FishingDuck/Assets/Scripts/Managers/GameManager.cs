@@ -4,14 +4,16 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] GameObject pauseMenu;
     [SerializeField] Animator levelTransition;
     [SerializeField] TextMeshProUGUI levelText;
+    [SerializeField] TextMeshProUGUI levelTextSlider;
     [SerializeField] int level;
-    [SerializeField] Transform renderTexture;
+    [SerializeField] RectTransform renderTexture;
+    [SerializeField] GameObject buttonPlay;
 
     bool isPause;
     public static GameManager Instance;
@@ -19,6 +21,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         ActualizeLevelText();
+        isPause = true;
+        Time.timeScale = 0;
     }
     void Awake()
     {
@@ -40,14 +44,27 @@ public class GameManager : MonoBehaviour
     public void Pause()
     {
         isPause = !isPause;
-        Time.timeScale = Convert.ToInt32(isPause);
-        pauseMenu.SetActive(isPause);
+        HideGame(isPause);
+        Time.timeScale = Convert.ToInt32(!isPause);
+        buttonPlay.SetActive(isPause);
+        //StartCoroutine(WaitBeforeTime());
+    }
+
+    IEnumerator WaitBeforeTime()
+    {
+        yield return new WaitForSecondsRealtime(Convert.ToInt32(!isPause));
+
     }
 
     void HideGame(bool hide)
     {
         if (hide)
         {
+            renderTexture.DOAnchorPosY(-1000, 1).SetUpdate(true);
+        }
+        else
+        {
+            renderTexture.DOAnchorPosY(0, 1).SetUpdate(true);
         }
     }
 
@@ -64,6 +81,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(3);
         levelTransition.gameObject.SetActive(false);
         Time.timeScale = 1;
+        SpawnerManager.Instance.ResetDucks();
 
     }
     IEnumerator ChangeLevelText()
@@ -71,12 +89,24 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(1.1f);
         level++;
         PlayerPrefs.SetInt("Level", level);
-        AudioManager.Instance.Play2DSound("LevelUp");
         ActualizeLevelText();
+
+        if(level % 3 == 1)
+        {
+            MonetizationManager.Instance.StartAd();
+        }
     }
 
     void ActualizeLevelText()
     {
         levelText.text = "Level " + level.ToString();
+        levelTextSlider.text = "Level " + level.ToString();
     }
+
+    public void Replay()
+    {
+        Pause();
+        SpawnerManager.Instance.ResetDucks();
+    }
+
 }

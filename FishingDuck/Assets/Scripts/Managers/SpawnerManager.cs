@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -29,10 +30,17 @@ public class SpawnerManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    void Start()
     {
+        StartCoroutine(WaitBeforeSpawn());
+    }
+
+    IEnumerator WaitBeforeSpawn()
+    {
+        yield return new WaitForSeconds(1f);
         Spawn();
     }
+
     public void SpawnDuck(List<ScriptableObjectives> obj)
     {
         return;
@@ -64,24 +72,29 @@ public class SpawnerManager : MonoBehaviour
                 intList.Add(intList[i - 1] + duckScripts[i].spawnRate);
         }
 
-        intList.Add(100 - (intList[intList.Count - 1]));
-
+        //intList.Add(100 - (intList[intList.Count - 1]));
+        intList.Add(100);
 
         for (int i = 0; i < duckNumbers; i++)
         {
-            int random = Random.Range(0, 99);
-            int doEverything = 0;
-            while (doEverything < intList.Count)
+            MakeRandom();
+        }
+    }
+
+    public void MakeRandom()
+    {
+
+        int random = Random.Range(0, 99);
+        int doEverything = 0;
+        while (doEverything < intList.Count)
+        {
+            if (random > intList[doEverything])
+                doEverything++;
+            else
             {
-                if (random > intList[doEverything])
-                    doEverything++;
-                else
-                {
-                    SpawnNewDuck(duckScripts[doEverything]);
-                    break;
-                }
+                SpawnNewDuck(duckScripts[doEverything]);
+                break;
             }
-           
         }
     }
 
@@ -110,5 +123,14 @@ public class SpawnerManager : MonoBehaviour
         {
             duckSpawned.ChangeColor(color);
         }
+    }
+
+    public void ResetDucks()
+    {
+        foreach (Duck item in FindObjectsOfType<Duck>())
+        {
+            Destroy(item);
+        }
+        Spawn();
     }
 }

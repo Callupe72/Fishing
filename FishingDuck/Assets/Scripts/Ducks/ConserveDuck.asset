@@ -17,6 +17,7 @@ MonoBehaviour:
   spawnRate: 10
   timeToCross: 6
   isNormal: 0
+  rotation: {x: 0, y: 0, z: 30}
   duckMesh: {fileID: -457512814673268182, guid: 58803ebb2de16024f81c0189da44ff80, type: 3}
   duckMats:
   - {fileID: -6478536213147159724, guid: 58803ebb2de16024f81c0189da44ff80, type: 3}

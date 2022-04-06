@@ -13,7 +13,7 @@ public class DuckSpawn : MonoBehaviour
 
     public void SpawnNewDuck(Duck collidingDuck)
     {
-        SpawnerManager.Instance.SpawnNewDuck(collidingDuck.scriptableDucks);
+        SpawnerManager.Instance.MakeRandom();
         if (collidingDuck != null)
             Destroy(collidingDuck.gameObject);
     }

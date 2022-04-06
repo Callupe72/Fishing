@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Pink
   m_EditorClassIdentifier: 
   color: {r: 1, g: 0, b: 0.7175808, a: 1}
-  points: 200
+  points: 350
   spawnRate: 5
   timeToCross: 2
   isNormal: 0
+  rotation: {x: 0, y: 0, z: 0}
   duckMesh: {fileID: 8794593595127319316, guid: 7af9a0bdf06cc4b4aacc187f53744c56, type: 3}
   duckMats:
   - {fileID: -2653651044934150266, guid: 8b8e2c6be2f2fc647b1a9f0809942f93, type: 3}
