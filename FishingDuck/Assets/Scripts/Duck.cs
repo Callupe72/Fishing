@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using DG.Tweening;
+using UnityEngine;
 
 public class Duck : MonoBehaviour
 {
@@ -19,7 +17,7 @@ public class Duck : MonoBehaviour
 
     void Start()
     {
-        randomZ = Random.Range(-.5f,.5f);
+        randomZ = Random.Range(-.5f, .5f);
         ChangeColor(scriptableDucks.color);
         //transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + randomZ);
         transform.DOMove(vectorposToGo, timeToGo);
@@ -49,16 +47,25 @@ public class Duck : MonoBehaviour
         hasBeenCaught = caught;
         if (caught)
         {
-            XPManager.Instance.AddXP(scriptableDucks.points, scriptableDucks.color);
+            if(scriptableDucks.color == Color.white)
+            XPManager.Instance.AddXP(scriptableDucks.points, Color.red);
+            else
+                XPManager.Instance.AddXP(scriptableDucks.points, scriptableDucks.color);
+
         }
     }
 
     public void ChangeColor(Color newCol)
     {
-        Material newMat = meshRend.materials[0];
-        newMat.SetColor("_BaseColor", newCol);
-        meshRend.sharedMaterials[0] = newMat;
-        Debug.Log(newCol);
+        GetComponent<MeshFilter>().mesh = scriptableDucks.duckMesh;
+        meshRend.materials = scriptableDucks.duckMats;
+
+        if (newCol != Color.white)
+        {
+            Material newMat = meshRend.materials[0];
+            newMat.SetColor("_BaseColor", newCol);
+            meshRend.sharedMaterials[0] = newMat;
+        }
     }
 
     public void RandomColor()

@@ -25,8 +25,9 @@ public class ComboManager : MonoBehaviour
 
     public void SpawnText(Color color, Vector3 position)
     {
-
-        position = new Vector3(position.x, 0, -3);
+        if (color == Color.white)
+            return;
+        position = new Vector3(position.x, 0, -1);
         int random = Random.Range(0, textToSay.Length);
 
         TextMeshProUGUI text = Instantiate(textPrefab, position, Quaternion.identity).GetComponentInChildren<TextMeshProUGUI>();

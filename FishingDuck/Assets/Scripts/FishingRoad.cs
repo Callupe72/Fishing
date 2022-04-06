@@ -3,7 +3,7 @@ using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI ;
+using UnityEngine.UI;
 
 public class FishingRoad : MonoBehaviour
 {
@@ -37,7 +37,6 @@ public class FishingRoad : MonoBehaviour
     {
         isFishing = true;
         fishingRoadParent.DORotateQuaternion(Quaternion.Euler(new Vector3(180, 0, 0)), timeFishAnim).OnComplete(SpawnTarget);
-        
     }
 
 
@@ -57,7 +56,10 @@ public class FishingRoad : MonoBehaviour
 
     void SpawnTarget()
     {
-            detectionArea.SetActive(true);
+        detectionArea.SetActive(true);
+        
+            AudioManager.Instance.Play2DSound("TouchWater");
+        ParticlesManager.Instance.SpawnParticles("FishingTouchWater", detectionArea.transform, Vector3.zero, false);
     }
 
     void UnSpawnTarget()
@@ -67,12 +69,26 @@ public class FishingRoad : MonoBehaviour
 
     void GetDuck()
     {
+        if (duckColliding.scriptableDucks.color != Color.white)
+        {
+            duckImg.color = duckColliding.scriptableDucks.color;
+            duckAnim.SetActive(true);
+            ComboManager.Instance.SpawnText(duckColliding.scriptableDucks.color, duckColliding.transform.position + new Vector3(0, 1, 0)); ;
+            StartCoroutine(ActiveFalseDuck());
+            ParticlesManager.Instance.SpawnParticles("GetDuck", duckColliding.transform, Vector3.zero, false);
+
+            AudioManager.Instance.Play2DSound("GetDuck");
+            AudioManager.Instance.Play2DSound("GetDuck2");
+            ParticlesManager.Instance.SpawnParticles("GetDuckText", duckColliding.transform.position + new Vector3(-.25f,.5f, 0), Vector3.zero);
+        }
+        else
+        {
+            CameraShake.Shake(0.25f, 4f);
+            AudioManager.Instance.Play2DSound("GetBadDuck");
+            ParticlesManager.Instance.SpawnParticles("GetBadDuck", duckColliding.transform.position + new Vector3(-.25f, .5f, 0), Vector3.zero);
+        }
         duckColliding.SetHasBeenCaught(true);
         duckSpawn.SpawnNewDuck(duckColliding);
-        duckImg.color = duckColliding.scriptableDucks.color;
-        duckAnim.SetActive(true);
-        ComboManager.Instance.SpawnText(duckColliding.scriptableDucks.color, duckColliding.transform.position + new Vector3(0, 1, 0)); ;
-        StartCoroutine(ActiveFalseDuck());
         duckColliding = null;
     }
 
@@ -98,7 +114,7 @@ public class FishingRoad : MonoBehaviour
     public void MovePosition(Vector2 newPos)
     {
         float posZ = transform.position.z - (-newPos.y) / sensivity;
-        posZ = Mathf.Clamp(posZ,firstPos.z - maxClamp, firstPos.z + maxClamp);
+        posZ = Mathf.Clamp(posZ, firstPos.z - maxClamp, firstPos.z + maxClamp);
         transform.position = new Vector3(firstPos.x, firstPos.y, posZ);
     }
 

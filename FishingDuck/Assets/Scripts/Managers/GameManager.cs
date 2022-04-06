@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] Animator levelTransition;
     [SerializeField] TextMeshProUGUI levelText;
     [SerializeField] int level;
+    [SerializeField] Transform renderTexture;
 
     bool isPause;
     public static GameManager Instance;
@@ -42,6 +44,13 @@ public class GameManager : MonoBehaviour
         pauseMenu.SetActive(isPause);
     }
 
+    void HideGame(bool hide)
+    {
+        if (hide)
+        {
+        }
+    }
+
     public void LevelTransition()
     {
         levelTransition.gameObject.SetActive(true);
@@ -62,6 +71,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(1.1f);
         level++;
         PlayerPrefs.SetInt("Level", level);
+        AudioManager.Instance.Play2DSound("LevelUp");
         ActualizeLevelText();
     }
 

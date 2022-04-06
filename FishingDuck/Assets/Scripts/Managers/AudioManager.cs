@@ -31,6 +31,7 @@ public class AudioManager : MonoBehaviour
     void Start()
     {
         LoadAudioValue();
+        AudioManager.Instance.Play2DSound("Them");
     }
 
     void LoadAudioValue()

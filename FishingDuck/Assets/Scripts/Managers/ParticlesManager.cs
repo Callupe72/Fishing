@@ -38,7 +38,15 @@ public class ParticlesManager : MonoBehaviour
 
     private void Start()
     {
-        ParticlesManager.Instance.SpawnParticles("ParticleFeu", this.transform, Vector3.zero, false);
+        StartCoroutine(SpawnLeaves());
+    }
+
+
+    IEnumerator SpawnLeaves()
+    {
+        ParticlesManager.Instance.SpawnParticles("FallingLeaves", Camera.main.transform.position + new Vector3(0, 0, -.5f), Vector3.zero);
+        yield return new WaitForSeconds(15);
+        StartCoroutine(SpawnLeaves());
     }
 
     public void SpawnParticles(string name, Transform parentTransform, Vector3 rotation, bool setToParent)
@@ -50,6 +58,27 @@ public class ParticlesManager : MonoBehaviour
         GameObject particleGo = Instantiate(p.particle, parentTransform.position, Quaternion.Euler(rotation));
         if (setToParent)
             particleGo.transform.parent = parentTransform;
+        lastParticles = particleGo;
+        ParticleSystem particlesComponent = particleGo.GetComponent<ParticleSystem>();
+        particlesComponent.Play();
+        particleGo.transform.localScale = p.scale;
+        lastParticles.name = name;
+        particlesComponent.playbackSpeed = p.speed;
+        foreach (Transform item in particleGo.transform)
+        {
+            if (GetComponent<ParticleSystem>())
+            {
+                item.GetComponent<ParticleSystem>().playbackSpeed = p.speed;
+            }
+        }
+    }
+    public void SpawnParticles(string name, Vector3 pos, Vector3 rotation)
+    {
+        if (!canParticle)
+            return;
+        Particles p = Array.Find(particles, particle => particle.name == name);
+
+        GameObject particleGo = Instantiate(p.particle, pos, Quaternion.Euler(rotation));
         lastParticles = particleGo;
         ParticleSystem particlesComponent = particleGo.GetComponent<ParticleSystem>();
         particlesComponent.Play();

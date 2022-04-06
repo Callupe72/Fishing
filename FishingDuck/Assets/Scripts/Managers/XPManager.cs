@@ -72,8 +72,7 @@ public class XPManager : MonoBehaviour
 
         if (canLevelGrowUp)
         {
-            levelTxt.DOColor(Color.white, timeLevelTransition);
-            levelTxt.transform.DOScale(1, timeLevelTransition);
+            
         }
 
         if (!canXpBar)
@@ -88,6 +87,9 @@ public class XPManager : MonoBehaviour
     public void AddXP(int xp, Color color)
     {
         playerXp += xp;
+
+        if (playerXp < 0)
+            playerXp = 0;
 
         if (canXpText && xp > 0)
         {
@@ -143,6 +145,8 @@ public class XPManager : MonoBehaviour
             canLevelGrowUp = true;
             StartCoroutine(WaitBeforeFollow(Mathf.RoundToInt(playerXp)));
             GameManager.Instance.LevelTransition();
+            levelTxt.DOColor(Color.black, timeLevelTransition).SetUpdate(true);
+            levelTxt.transform.DOScale(1, timeLevelTransition).SetUpdate(true);
         }
 
     }

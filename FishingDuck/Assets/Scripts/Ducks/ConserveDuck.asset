@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e8c3a2f567da8a4aa4ca63524053518, type: 3}
+  m_Name: ConserveDuck
+  m_EditorClassIdentifier: 
+  color: {r: 1, g: 1, b: 1, a: 1}
+  points: -50
+  spawnRate: 10
+  timeToCross: 6
+  isNormal: 0
+  duckMesh: {fileID: -457512814673268182, guid: 58803ebb2de16024f81c0189da44ff80, type: 3}
+  duckMats:
+  - {fileID: -6478536213147159724, guid: 58803ebb2de16024f81c0189da44ff80, type: 3}
+  - {fileID: -3846018093981099296, guid: 58803ebb2de16024f81c0189da44ff80, type: 3}
