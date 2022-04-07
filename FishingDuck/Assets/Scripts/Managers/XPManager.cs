@@ -86,16 +86,22 @@ public class XPManager : MonoBehaviour
 
     public void AddXP(int xp, Color color)
     {
+        GameManager.Instance.Hide();
+
         playerXp += xp;
 
         if (playerXp < 0)
             playerXp = 0;
 
-        if (canXpText && xp > 0)
+        if (canXpText)
         {
             TextMeshProUGUI text = Instantiate(xpText, xpTextParent).GetComponent<TextMeshProUGUI>();
             text.rectTransform.anchoredPosition = new Vector2(xpBarBack.fillAmount * xpBar.rectTransform.sizeDelta.x + 0 - xpBar.rectTransform.sizeDelta.x / 3, -40);
-            text.text = "+" + xp + " xp";
+            
+            if(xp>0)
+                text.text = "+" + xp + " xp";
+            else
+                text.text = xp + " xp";
             text.color = color;
         }
         xpBar.color = color;
@@ -105,7 +111,7 @@ public class XPManager : MonoBehaviour
 
         if (canXpBar && xp > 0)
         {
-            xpBackground.DOScale(1.1f, 0.001f);
+            xpBackground.DOScale(1.5f, 0.001f);
             StartCoroutine(WaitBeforeFollow(xp));
         }
         else

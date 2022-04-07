@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: PurpleDuck
   m_EditorClassIdentifier: 
   color: {r: 0.84482574, g: 0, b: 1, a: 1}
-  points: 300
+  points: 500
   spawnRate: 2
-  timeToCross: 1.5
+  timeToCross: 2
   isNormal: 0
+  rotation: {x: 0, y: 0, z: 0}
   duckMesh: {fileID: 8794593595127319316, guid: 7af9a0bdf06cc4b4aacc187f53744c56, type: 3}
   duckMats:
   - {fileID: -2653651044934150266, guid: 8b8e2c6be2f2fc647b1a9f0809942f93, type: 3}

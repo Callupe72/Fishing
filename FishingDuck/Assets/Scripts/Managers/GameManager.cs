@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -16,13 +17,22 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject buttonPlay;
 
     bool isPause;
+    [SerializeField] Animation imageHand;
     public static GameManager Instance;
+    [SerializeField] Button pauseBtn;
+
 
     void Start()
     {
+        imageHand.Play();
         ActualizeLevelText();
         isPause = true;
         Time.timeScale = 0;
+    }
+
+    public void Hide()
+    {
+        imageHand.gameObject.SetActive(false);
     }
     void Awake()
     {
@@ -47,6 +57,7 @@ public class GameManager : MonoBehaviour
         HideGame(isPause);
         Time.timeScale = Convert.ToInt32(!isPause);
         buttonPlay.SetActive(isPause);
+        pauseBtn.gameObject.SetActive(!isPause);
         //StartCoroutine(WaitBeforeTime());
     }
 

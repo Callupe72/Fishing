@@ -4,7 +4,7 @@ using System.Collections;
 public class CameraShake : MonoBehaviour
 {
 
-    public static CameraShake instance;
+    public static CameraShake Instance;
 
     private Vector3 _originalPos;
     private float _timeAtCurrentFrame;
@@ -13,7 +13,19 @@ public class CameraShake : MonoBehaviour
 
     void Awake()
     {
-        instance = this;
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
+
+    void Start()
+    {
     }
 
     void Update()
@@ -24,11 +36,11 @@ public class CameraShake : MonoBehaviour
         _timeAtLastFrame = _timeAtCurrentFrame;
     }
 
-    public static void Shake(float duration, float amount)
+    public void Shake(float duration, float amount)
     {
-        instance._originalPos = instance.gameObject.transform.localPosition;
-        instance.StopAllCoroutines();
-        instance.StartCoroutine(instance.cShake(duration, amount));
+        Instance._originalPos = Instance.gameObject.transform.localPosition;
+        Instance.StopAllCoroutines();
+        Instance.StartCoroutine(Instance.cShake(duration, amount));
     }
 
     public IEnumerator cShake(float duration, float amount)
